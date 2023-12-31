@@ -19,7 +19,7 @@ const Interns = () => {
   const getData = async () => {
     await request("GET", "/interns")
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setInterns(res.data);
       })
       .catch((e) => {

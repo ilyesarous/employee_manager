@@ -5,35 +5,43 @@ import { request } from "../../tools/axiosTool/AxiosTool";
 
 const PtoElements = (props) => {
   const pto = props.element;
-  let [text, setText] = useState("");
- 
   const buttons = [
     { id: 1, button: <Check /> },
     { id: 2, button: <Clear /> },
   ];
-
+  const headers = [
+    { i: 1, head: pto.employeeId },
+    { i: 2, head: pto.fname },
+    { i: 3, head: pto.lname },
+    { i: 4, head: pto.startDate },
+    { i: 5, head: pto.endDate },
+  ];
+  let [text, setText] = useState(pto.status);
+  let user = {
+    id: pto.id,
+    fname: pto.fname,
+    lname: pto.lname,
+    startDate: pto.startDate,
+    endDate: pto.endDate,
+    status: text,
+  };
+  //update state
+  const sendNewData = () => {
+    request("PUT", `/ptos/update/${pto.id}`, user)
+    .then(() => console.log("done"))
+    .catch((e) => console.log(e));
+  };
   const changeStatus = (id) => {
     if (id === 1) {
       setText("accepted");
+      user.status = "accepted";
     } else {
       setText("rejected");
+      user.status = "rejected";
     }
-    
-    request("PUT", `/ptos/update/${pto.id}`, {
-      id: pto.id,
-      fname: pto.fname,
-      lname: pto.lname,
-      startDate: pto.startDate,
-      endDate: pto.endDate,
-      status: text,
-    })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    sendNewData();
   };
+
   return (
     <Stack
       direction={"row"}
@@ -45,11 +53,11 @@ const PtoElements = (props) => {
       key={pto.id}
     >
       <Avatar></Avatar>
-      <Typography m={5}>{pto.employeeId}</Typography>
-      <Typography m={5}>{pto.fname}</Typography>
-      <Typography m={5}>{pto.lname}</Typography>
-      <Typography m={5}>{pto.startDate}</Typography>
-      <Typography m={5}>{pto.endDate}</Typography>
+      {headers.map((p) => (
+        <Typography key={p.i} m={5}>
+          {p.head}
+        </Typography>
+      ))}
       <Divider orientation="vertical" variant="middle" flexItem />
       {text === "" ? (
         <Stack direction={"row"}>
