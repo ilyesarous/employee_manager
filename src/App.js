@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { Divider, Stack } from "@mui/material";
+import "./App.css";
+import LeftMenu from "./components/leftSide/LeftMenu";
+import MainBody from "./components/body/MainBody";
+import NavBar from "./components/navbar/NavBar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <NavBar />
+      <Stack direction={"row"} mt={3} minHeight={"100%"}>
+        <LeftMenu />
+        <Divider orientation="vertical" flexItem />
+        <MainBody/>
+      </Stack>
     </div>
   );
 }
